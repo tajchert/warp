@@ -112,8 +112,11 @@ impl crate::Clipboard for Clipboard {
                 )
             }
 
-            // Try to read image data from clipboard
-            content.images = self.read_image_data_from_pasteboard();
+            // Files copied in Finder come with a TIFF icon on the pasteboard. The paths are
+            // the real content, so only read image data when there are none.
+            if available_paths == 0 {
+                content.images = self.read_image_data_from_pasteboard();
+            }
 
             content
         }
